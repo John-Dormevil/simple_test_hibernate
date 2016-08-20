@@ -2,34 +2,33 @@ package com.test.hibernate.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Table;
 
 @Entity
 @Table(appliesTo = "client")
 public class Client implements Serializable{
-
-	private Long id;
-	
-	@Columns(name = "nom", type="string")
-	private String nom;
-	
-	@Columns(name = "prenom", type="string")
-	private String prenom;
-	
-	@Columns(name = "datedenaissance", type="Date")
-	private Date dateDeNaissance;
-
-	@OneToMany(targetEntity="commande", mappedBy="client")
-	private Long commmandes;
 	
 	@Id
+	@Column
+	private Long id;
+	
+	@Column(name = "nom")
+	private String nom;
+	
+	@Column(name = "prenom")
+	private String prenom;
+	
+	@Column(name = "datedenaissance")
+	private Date dateDeNaissance;
+
+	@OneToMany()
+	private Long commmandes;
+	
 	public Long getId() {
 		return id;
 	}
