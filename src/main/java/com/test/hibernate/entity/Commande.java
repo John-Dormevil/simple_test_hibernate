@@ -3,9 +3,9 @@ package com.test.hibernate.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.Table;
 import javax.persistence.Id;
@@ -18,16 +18,15 @@ import javax.persistence.OneToOne;
 public class Commande implements Serializable{
 	
 	
-	@Generated(strategy=GenerationType.SEQUENCE, generator="SEQ_STORE")
 	private Long Id;
 	
-	@Columns(name = "numerocommande", type="string")
+	@Column()
 	private Long numeroDeCommande;
 	
-	@Columns(name = "datecommande", type="string")
+	@Column()
 	private Date dateDeLacommande;
 	
-	@OneToOne(targetEntity="client" , mappedBy="commande")
+	@OneToOne()
 	private Client client;
 	
 	@Id 
