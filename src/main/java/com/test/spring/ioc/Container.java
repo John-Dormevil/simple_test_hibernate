@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class Container {
 			 * on charge tout les élements dans le properties file
 			 * on close la conection le fux est interompue et fermé.
 			 */
-			fis = new FileInputStream("config_service.properpties");
+			fis = new FileInputStream("config_service.properties");
 			propertiesFile.load(fis);
 			fis.close();
 			updateServices();
@@ -179,11 +180,6 @@ public class Container {
 		 */
 		String thisService = container.get(service);
 		
-		
-		
-		
-		
-		
 		/*
 		 * Vérifions que le service demander n'a pas une dépendance nécessaire pour sa construction
 		 */
@@ -192,14 +188,36 @@ public class Container {
 			ArrayList<String> arrValue = dependance.get(service);
 			Class [] allDependance= new Class[arrValue.size()];
 			for (int i = 0; i<arrValue.size(); i++){
-				allDependance[i] = Class.forName(arrValue.get(i));
+				if (isService(arrValue.get(i))){
+					String serv = takeTheRightValue(arrValue.get(i));
+					String namespaceService = container.get(serv);
+					try {
+						allDependance[i] = Class.forName(namespaceService);
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+				
 			}
 			
 			try {
 				//Creation de l'image représentant notre service sous le type Class de java
 				classe = Class.forName(thisService);
 				
-				constructeur = classe.getConstructor(new Class[] {Class.forName("")});
+				constructeur = classe.getConstructor(allDependance);
+				try {
+					
+					return constructeur.newInstance(new Object []{});
+					
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
 			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -208,6 +226,16 @@ public class Container {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				return Class.forName(thisService).newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
