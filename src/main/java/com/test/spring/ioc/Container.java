@@ -6,8 +6,8 @@ import java.util.Map;
 
 /** 
  * @author j-jse
- * Ce class est notre conteneur et sera charger de  dans un premier temps de nous fournir 
- * de referencer tout les type de class c'est aussi un singleton*/
+ * Cette class est notre conteneur et sera charger dans un premier temps de nous fournir 
+ * et donc de referencer tout les types de class c'est aussi un singleton*/
 public class Container {
 	
 	private static Container instance = null;
@@ -34,7 +34,6 @@ public class Container {
 	
 	public Object getService(String service){
 		
-		
 		return container.get(service);
 	}
 	
@@ -42,7 +41,20 @@ public class Container {
 	 * Cette methode ajoute dans une colection la pair clé valeur utile pour référencer un service
 	 * @param k correspond a la clé qui identifie la class stocker dans le container hashmap
 	 * @param v correspond a la class donc l'objet stoqué au sein de la collection hashmap*/
-	public void configContainer(String k, Object v){
+	public void configAddContainerServicies(String k, Object v){
 		container.put(k, v);
+	}
+	
+	/**
+	 * Cette ethode nous permet de préciser la relation entre les service et donc leur dépendance vis-a-vis
+	 * de chacun
+	 * @param service correspond l'identifiant du service qui devra être connecter a sa dépendance
+	 * 		-ex : le service "joueur" a besoin et donc dépendt du service "balle" pour fonctionner
+	 * 			correctemment
+	 * @param dependance correspond aux dépendance d'un service. Ces dépendance seront passer en 
+	 * paramétre au constructeur du service lors de l'instanciation. c'est une arralist de string.
+	 */
+	public void configAddContainerDependance(String service, ArrayList<String> dependance){
+		this.dependance.put(service, dependance);
 	}
 }
