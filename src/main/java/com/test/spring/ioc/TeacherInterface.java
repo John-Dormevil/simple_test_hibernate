@@ -5,3 +5,4 @@ public interface TeacherInterface {
 	public String explainTheCours();
 	
 }
+		

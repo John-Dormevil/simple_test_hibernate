@@ -10,17 +10,26 @@ public class MainApp {
 		//Teacher teacher1 = new Teacher();
 		//
 		//System.out.println(teacher1.teach());
-		
-		String text = "Avec moi tu ne craint\\ rien a.Naple ville de la terreur";
+		/*
+		String text = "Avec moi tu ne craint\\ rien a.Naple ville De la terreur";
+		String text2 = "com.ioc.ClassRoomFrench";
 		Pattern p = Pattern.compile(".*\\\\.*");
 		Matcher m = p.matcher(text);
 		boolean b = m.matches();
-		System.out.println(b);
-		String [] tabText= text.split("\\\\");
+		//System.out.println(b);
+		String [] tabText= text2.split("(?=[A-Z])");
 		for (String s : tabText){
 			System.out.println(s);
 		}
-		System.out.println(Pattern.matches(p.pattern(), text));
+		String theObject = "";
+		for (int i = 1; i<tabText.length; i++){
+			theObject  += tabText[i];
+		}
+		System.out.println(theObject);
+		//System.out.println(Pattern.matches(p.pattern(), text));*/		
+		
+		Object classRoom = Container.getInstance().getService("ClassRoom");
+		System.out.println(((ClassRoom) classRoom).explain());
 	}
 
 }
