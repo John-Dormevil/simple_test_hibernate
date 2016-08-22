@@ -109,8 +109,9 @@ public class Container {
 		for (Map.Entry<Object, Object> m : propertiesFile.entrySet()){
 			String key =(String) m.getKey();
 			String value =(String) m.getValue();
-			arr.add(value);
+			
 			if(isDependance(key)){
+				arr.add(value);
 				configAddContainerDependance(takeTheRightValue(key), arr);
 			}
 		}
@@ -145,34 +146,10 @@ public class Container {
 		return tableKey[1];
 	}
 	
-	/*@SuppressWarnings("finally")
-	private Object takeTheObject(String s){
-		String theObject= "";
-		String [] tableValue= s.split("(?=[A-Z])");
-		Object o = null;
-		for (int i = 1; i<tableValue.length; i++){
-			theObject += tableValue[i];
-		}
-		try {
-			
-			o = Class.forName(theObject).newInstance();
-			
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		finally {
-			return o;
-		}
-	}*/
-	
 	private Object correlationServiceDependance(String service){
 		//Creation d'une instance de Constructor au cas ou l'on devra faire appelle a une dépendance
 		Constructor constructeur;
-		Class classe;
+		Class<Object> classe;
 		
 		/*
 		 * Cherchons le service dans le container on obtient le namespace de la class que l'on devra instancié
@@ -202,12 +179,12 @@ public class Container {
 			
 			try {
 				//Creation de l'image représentant notre service sous le type Class de java
-				classe = Class.forName(thisService);
+				classe = (Class<Object>) Class.forName(thisService);
 				
 				constructeur = classe.getConstructor(allDependance);
 				try {
 					
-					return constructeur.newInstance(new Object []{});
+					return constructeur.newInstance(new Object []{buildSpecialNamespaceObject("com.test.spring.ioc.FrenchTeacher")});
 					
 				} catch (InstantiationException e) {
 					e.printStackTrace();
@@ -241,5 +218,23 @@ public class Container {
 		}
 		
 		return service;
+	}
+	
+	private Object buildSpecialNamespaceObject(String namespace){
+		Object o = new Object();
+		try {
+			o = Class.forName(namespace).newInstance();
+			return o;
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return o;
 	}
 }

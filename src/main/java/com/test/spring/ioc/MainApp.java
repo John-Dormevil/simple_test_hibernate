@@ -27,8 +27,9 @@ public class MainApp {
 		}
 		System.out.println(theObject);
 		//System.out.println(Pattern.matches(p.pattern(), text));*/		
-		
-		Object classRoom = Container.getInstance().getService("ClassRoom");
+		//ClassRoom cr = new ClassRoom(new FrenchTeacher());
+		//System.out.println(cr.explain());
+		Object classRoom = Container.getInstance().getService("classRoom");
 		System.out.println(((ClassRoom) classRoom).explain());
 	}
 
