@@ -1,20 +1,28 @@
 package com.test.hibernate.entity;
 
-import java.io.Serializable;
+
+import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.Table;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(appliesTo = "client")
-public class Client implements Serializable{
+@Table(name = "client")
+public class Client {
 	
 	@Id
-	@Column
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
 	private Long id;
 	
 	@Column(name = "nom")
@@ -25,12 +33,26 @@ public class Client implements Serializable{
 	
 	@Column(name = "datedenaissance")
 	private Date dateDeNaissance;
-
-	@OneToMany()
-	private Long commmandes;
+	
+	
+	@OneToMany(mappedBy="client")
+	@Cascade(value = { CascadeType.SAVE_UPDATE })
+	private Set<Commande> commmandes;
+	
 	
 	public Long getId() {
 		return id;
+	}
+	
+	public Client(){
+		
+	}
+
+	public Client(String nom, String prenom, Date dateDeNaissance) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.dateDeNaissance = dateDeNaissance;
 	}
 
 	public void setId(Long id) {
@@ -61,11 +83,11 @@ public class Client implements Serializable{
 		this.dateDeNaissance = dateDeNaissance;
 	}
 
-	public Long getCommmandes() {
+	public Set<Commande> getCommmandes() {
 		return commmandes;
 	}
 
-	public void setCommmandes(Long commmandes) {
+	public void setCommmandes(Set<Commande> commmandes) {
 		this.commmandes = commmandes;
 	}
 
