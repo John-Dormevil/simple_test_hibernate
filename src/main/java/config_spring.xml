@@ -10,6 +10,10 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <!-- <property name="teacherOfThisClassRoom" ref="frenchTeacher"></property> -->
         <constructor-arg ref="frenchTeacher"/>
     </bean>
+    <bean id="faker" class="com.github.javafaker.Faker"></bean>
+    <bean id="sessFactory" class="com.test.hibernate.entity.SessFactory"></bean>
+    <bean id="commande" class="com.test.hibernate.entity.Commande"></bean>
+    <bean id="client" class="com.test.hibernate.entity.Client"></bean>
     
 
 

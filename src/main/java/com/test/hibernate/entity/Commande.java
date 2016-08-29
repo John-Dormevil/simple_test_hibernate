@@ -64,4 +64,10 @@ public class Commande{
 	public void setClient(Client client) {
 		this.client = client;
 	}
+	
+	@Override
+	public String toString() {
+		
+		return "id = "+ this.id +" numeros Commande "+ this.numeroDeCommande;
+	}
 }

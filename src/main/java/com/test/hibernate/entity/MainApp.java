@@ -11,7 +11,7 @@ import org.hibernate.Session;
 public class MainApp {
 	
 	public static void main(String[] args) {
-		Session session = SessFactory.getInstance();
+		/*Session session = SessFactory.getInstance();
 		
 		Set<Commande> allCommande = new HashSet<Commande>();
 		Client tempClient1 = new Client("Jushin", "shinWagton", new Date());
@@ -31,7 +31,24 @@ public class MainApp {
 		session.persist(tempClient1);
 		session.flush();
 		session.getTransaction().commit();
-		session.close();
+		session.close();*/
+		
+		
+		CommandeDAO cm = new CommandeDAO(SessFactory.getInstance());
+		
+		Commande c = cm.getCommandId(5L);
+		System.out.println(c);
+		
+		Client cli = cm.getClientFromCommandId(9L);
+		System.out.println(cli.getNom());
+		
+		Client  cli2 = cm.getClientById(16L);
+		System.out.println(cli2.getNom());
+		
+		System.out.println(cli2.getCommmandes());
+		
+		cm.closeSession();
+		
 		
 		/*
 		Maire antoinette = new Maire();
