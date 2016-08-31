@@ -1,7 +1,6 @@
 package com.test.hibernate.entity;
 
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,8 +20,8 @@ import org.hibernate.annotations.CascadeType;
 public class Client {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="client_id")
 	private Long id;
 	
 	@Column(name = "nom")
@@ -36,7 +35,7 @@ public class Client {
 	
 	
 	@OneToMany(mappedBy="client")
-	@Cascade(value = { CascadeType.SAVE_UPDATE })
+	@Cascade(value = { CascadeType.PERSIST })
 	private Set<Commande> commmandes;
 	
 	
@@ -91,5 +90,9 @@ public class Client {
 		this.commmandes = commmandes;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "\n\t Client \n\nnom : "+this.nom+
+				"\nprenom : "+this.prenom+"\n";
+	}
 }

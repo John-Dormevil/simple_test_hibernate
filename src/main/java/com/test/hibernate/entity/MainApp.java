@@ -1,12 +1,6 @@
 package com.test.hibernate.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.hibernate.Session;
+import com.linkazer.mylib.date.ConvertDate;
 
 public class MainApp {
 	
@@ -15,18 +9,7 @@ public class MainApp {
 		
 		Set<Commande> allCommande = new HashSet<Commande>();
 		Client tempClient1 = new Client("Jushin", "shinWagton", new Date());
-		Commande chaussure = new Commande()
-				.setDateDeLaCommande(new Date())
-				.setNumeroDeCommande(666645254L);
-		Commande sacMains = new Commande ()
-				.setDateDeLaCommande(new Date())
-				.setNumeroDeCommande(1445414526777L);
 		
-		allCommande.add(chaussure);
-		allCommande.add(sacMains);
-		chaussure.setClient(tempClient1);
-		sacMains.setClient(tempClient1);
-		tempClient1.setCommmandes(allCommande);
 		session.beginTransaction();
 		session.persist(tempClient1);
 		session.flush();
@@ -36,18 +19,31 @@ public class MainApp {
 		
 		CommandeDAO cm = new CommandeDAO(SessFactory.getInstance());
 		
-		Commande c = cm.getCommandId(5L);
-		System.out.println(c);
+		//Commande c = cm.getCommandId(5L);
 		
-		Client cli = cm.getClientFromCommandId(9L);
-		System.out.println(cli.getNom());
+		//System.out.println(c);
 		
-		Client  cli2 = cm.getClientById(16L);
-		System.out.println(cli2.getNom());
+		//Client cli = cm.getClientFromCommandId(9L);
+		//System.out.println(cli.getNom());
 		
-		System.out.println(cli2.getCommmandes());
+		//Client  cli2 = cm.getClientById(16L);
 		
+		//System.out.println(cli2.getNom());
+		
+		//System.out.println(cli2.getCommmandes());
+		
+		//System.out.println(cm.getAllCommandeFromThisDate(ConvertDate.stringToDate("18/05/2016")));
+		Client cli = cm.getMethodeClientID(19L);
+		System.out.println(cli);
+		cli.setNom("Bartholome");
+		cm.flush();
+		Client cli2 = cm.getMethodeClientID(18L);
+		System.out.println(cli);
+		cm.commit();
+				
+		//System.out.println(cm.getMethodeCommandeId(2L));
 		cm.closeSession();
+		System.exit(0);
 		
 		
 		/*

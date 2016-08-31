@@ -1,10 +1,12 @@
 package com.test.hibernate.entity;
 
-import java.util.List;
-import java.util.Set;
 
+import java.util.ArrayList;
+import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+
+import com.linkazer.mylib.date.ConvertDate;
 
 public class CommandeDAO {
 	
@@ -16,7 +18,7 @@ public class CommandeDAO {
 	}
 	
 	public Commande getCommandId(Long id){
-		Query query = session.createQuery("from Commande where id=:id");
+		Query<?> query = session.createQuery("from Commande where id=:id");
 		query.setParameter("id", id);
 		Commande result = (Commande) query.getSingleResult();
 		return result;
@@ -31,7 +33,7 @@ public class CommandeDAO {
 	}
 	
 	public Client getClientById(Long id){
-		Query query = session.createQuery("from Client where id = :id");
+		Query<?> query = session.createQuery("from Client where id = :id");
 		query.setParameter("id", id);
 		Client result  = (Client) query.getSingleResult();
 		return result;
@@ -43,6 +45,32 @@ public class CommandeDAO {
 		return cli.getCommmandes();
 	}
 	
+	public ArrayList<Commande> getAllCommandeFromThisDate(java.util.Date date){
+		
+		StringBuilder queryString = new StringBuilder("from Commande ");
+		queryString.append("where dateDeLaCommande >= '" + ConvertDate.dateToStringSqlFormat(date) + "'");
+		queryString.append(" and dateDeLaCommande < '" + ConvertDate.stringDateIncrement(ConvertDate.dateToString(date)) + "'");
+		Query<?> query = session.createQuery(queryString.toString());
+		ArrayList<Commande> com = (ArrayList<Commande>) query.getResultList();
+		
+		return com;
+	}
+	
+	public Commande getMethodeCommandeId(Long id){
+		return (Commande) session.get(Commande.class, id);
+	}
+	
+	public Client getMethodeClientID(Long id){
+		return (Client) session.get(Client.class, id);
+	}
+	
+	public void flush(){
+		session.flush();
+	}
+	
+	public void commit(){
+		session.getTransaction().commit();
+	}
 	
 	public void closeSession(){
 		this.session.close();

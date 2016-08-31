@@ -12,8 +12,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="faker" class="com.github.javafaker.Faker"></bean>
     <bean id="sessFactory" class="com.test.hibernate.entity.SessFactory"></bean>
-    <bean id="commande" class="com.test.hibernate.entity.Commande"></bean>
-    <bean id="client" class="com.test.hibernate.entity.Client"></bean>
+    <bean id="commande" class="com.test.hibernate.entity.Commande" scope="prototype"></bean>
+    <bean id="client" class="com.test.hibernate.entity.Client" scope="prototype"></bean>
     
 
 
